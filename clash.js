@@ -28,7 +28,7 @@ if (cmd == "init") {
 
 
 if (cmd == "start") {
-    await $`sudo pm2 start --name clash ./bin/clash -- -d ./bin/clash_data`;
+    await $`pm2 start --name clash ./bin/clash -- -d ./bin/clash_data`;
 }
 
 if (cmd == "stop") {
