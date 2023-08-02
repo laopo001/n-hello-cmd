@@ -23,7 +23,7 @@ if (cmd == "init") {
     await $`./extract.js bin/clash.gz`
     let box_user_group="root:net_admin";
     await $`chown -R ${box_user_group} ./bin`
-    await $`chmod -R 644 ./bin`
+    await $`chmod -R 755 ./bin`
     // await $`chmod 755 bin/clash`
     await fs.ensureDir('bin/clash_data')
     await downloadFile(`https://static.dadigua.men/clash/redir.beta.yaml`, 'bin/clash_data/config.yaml');
