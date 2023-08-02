@@ -1,0 +1,15 @@
+{
+    "name": "n-hello-cmd",
+    "version": "1.0.0",
+    "description": "hello-cmd",
+    "type": "module",
+    "bin": {
+        "n-extract": "extract.js",
+        "n-echo": "echo.js",
+        "n-clash": "clash.js"
+    },
+    "dependencies": {
+        "node-fetch": "^3.3.2",
+        "zx": "^7.2.3"
+    }
+}
