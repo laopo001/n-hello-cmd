@@ -17,7 +17,8 @@ if (cmd == "init") {
         return await $`npm i -g pm2`
     })
     await fs.ensureDir('bin')
-    await downloadFile(`https://github.com/laopo001/Clash.Meta/releases/download/v0.0.6/clash.meta-${platform}-${arch}-v0.0.6.gz`, './bin/clash.gz');
+    await $`curl -L -o bin/clash.gz https://github.com/laopo001/Clash.Meta/releases/download/v0.0.5/clash.meta-${platform}-${arch}-v0.0.5.gz`
+   // await downloadFile(`https://github.com/laopo001/Clash.Meta/releases/download/v0.0.6/clash.meta-${platform}-${arch}-cgo-v0.0.6.gz`, './bin/clash.gz');
     await fs.remove('./bin/clash')
     await $`./extract.js bin/clash.gz`
     await $`chmod 755 bin/clash`
@@ -27,7 +28,7 @@ if (cmd == "init") {
 
 
 if (cmd == "start") {
-    await $`pm2 start --name clash ./bin/clash -- -d ./bin/clash_data`;
+    await $`sudo pm2 start --name clash ./bin/clash -- -d ./bin/clash_data`;
 }
 
 if (cmd == "stop") {
