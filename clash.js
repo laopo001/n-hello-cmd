@@ -5,6 +5,7 @@ import fetch from 'node-fetch';
 let cmd = argv._[0];
 
 echo(os.arch())
+echo(os.platform())
 
 let platform = os.platform() == "win32" ? "windows" : "linux";
 let arch = os.arch() == "x64" ? "amd64" : "arm64";
