@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { $, argv, echo, os, fs } from 'zx';
+import { $, argv, echo, os, fs, cd } from 'zx';
 import fetch from 'node-fetch';
 
 let cmd = argv._[0];
@@ -17,16 +17,18 @@ if (cmd == "init") {
         return await $`npm i -g pm2`
     })
     await fs.ensureDir('bin')
-    await $`curl -L -o bin/clash.gz https://github.com/laopo001/Clash.Meta/releases/download/v0.0.6/clash.meta-${platform}-${arch}-v0.0.6.gz`
-   // await downloadFile(`https://github.com/laopo001/Clash.Meta/releases/download/v0.0.6/clash.meta-${platform}-${arch}-cgo-v0.0.6.gz`, './bin/clash.gz');
-    await fs.remove('./bin/clash')
-    await $`./extract.js bin/clash.gz`
-    let box_user_group="root:net_admin";
-    await $`chown -R ${box_user_group} ./bin`
-    await $`chmod -R 755 ./bin`
+    await cd('bin')
+    await $`curl -L -o clash.meta.gz https://github.com/laopo001/Clash.Meta/releases/download/v0.0.6/clash.meta-${platform}-${arch}-v0.0.6.gz`
+    // await downloadFile(`https://github.com/laopo001/Clash.Meta/releases/download/v0.0.6/clash.meta-${platform}-${arch}-cgo-v0.0.6.gz`, './bin/clash.gz');
+    await $`gunzip clash.meta.gz`
+    await fs.remove('./clash')
+    await fs.move('./clash.meta', './clash')
+    let box_user_group = "root:net_admin";
+    await $`chown ${box_user_group} ./clash`
+    await $`chmod 755 ./clash`
     // await $`chmod 755 bin/clash`
-    await fs.ensureDir('bin/clash_data')
-    await downloadFile(`https://static.dadigua.men/clash/redir.beta.yaml`, 'bin/clash_data/config.yaml');
+    await fs.ensureDir('clash_data')
+    await downloadFile(`https://static.dadigua.men/clash/redir.beta.yaml`, 'clash_data/config.yaml');
 }
 
 
