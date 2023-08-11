@@ -3,9 +3,11 @@
 import fetch from "node-fetch";
 import qs from "querystring";
 import { $, argv, fs, YAML } from 'zx';
+import dotenv from "dotenv"
+dotenv.config();
 
 const URLPRE = "https://nnr.moe";
-const token = "976daa2b-af22-4dd4-ab3c-ddaf3d169bbd";
+const token = process.env.TOKEN;
 const headers = {
     token,
     "content-type": "application/json",
@@ -13,14 +15,14 @@ const headers = {
 const nodes = ["广港IEPL1 x10", "广港IEPL2 x10", "安徽-香港 x2", "安徽-香港"];
 const proxyConig = {
     "type": "vless",
-    "uuid": "2943d492-4038-4d29-d22b-896b8cada7c4",
+    "uuid": process.env.uuid,
     "network": "grpc",
     "servername": "www.speedtest.net",
     "flow": null,
     "udp": true,
     "tls": true,
     "reality-opts": {
-        "public-key": "UtL7E0Gmxj3X5JdcPAutpTRKo7K2hugkR0vwk2XroUM"
+        "public-key": process.env.publickey,
     },
     "client-fingerprint": "chrome",
     "grpc-opts": {
@@ -30,7 +32,7 @@ const proxyConig = {
 const proxyConig2 = {
     "type": "ss",
     "cipher": "aes-256-gcm",
-    "password": "if!=Null",
+    "password": process.env.password,
     "udp": true
 }
 const ends = [{
@@ -135,7 +137,7 @@ async function addRules() {
         }
     }
     console.log(YAML.stringify(proxy))
-    await fs.writeFile('config.yaml', YAML.stringify(proxy))
+    await fs.writeFile('config.yaml', YAML.stringify({ proxy: proxy }))
 }
 
 async function main() {

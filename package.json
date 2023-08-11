@@ -9,6 +9,7 @@
         "n-clash": "clash.js"
     },
     "dependencies": {
+        "dotenv": "^16.3.1",
         "node-fetch": "^3.3.2",
         "zx": "^7.2.3"
     }
