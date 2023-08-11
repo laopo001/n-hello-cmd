@@ -2,7 +2,7 @@
 
 import fetch from "node-fetch";
 import qs from "querystring";
-import { $, argv, fs, YAML, fs } from 'zx';
+import { $, argv, fs, YAML } from 'zx';
 
 const URLPRE = "https://nnr.moe";
 const token = "976daa2b-af22-4dd4-ab3c-ddaf3d169bbd";
