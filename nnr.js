@@ -135,7 +135,7 @@ async function addRules() {
         }
     }
     console.log(YAML.stringify(proxy))
-    await fs.write('config.yaml', YAML.stringify(proxy))
+    await fs.writeFile('config.yaml', YAML.stringify(proxy))
 }
 
 async function main() {
