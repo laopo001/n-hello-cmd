@@ -6,8 +6,10 @@ import { $, argv, fs, YAML } from 'zx';
 import dotenv from "dotenv"
 dotenv.config();
 
+
 const URLPRE = "https://nnr.moe";
 const token = process.env.TOKEN;
+
 const headers = {
     token,
     "content-type": "application/json",
@@ -38,22 +40,28 @@ const proxyConig2 = {
 const ends = [{
     server: "hk.dadigua.men",
     port: 22213,
-    // nodes: ["广港IEPL1 x10"],
     proxyConig: proxyConig
 }, {
     server: "wap.dadigua.men",
     port: 22213,
-    // nodes: ["广港IEPL1 x10"],
     proxyConig: proxyConig
 }, {
     server: "hk.dadigua.men",
     port: 22211,
-    // nodes: ["广港IEPL1 x10"],
     proxyConig: proxyConig2
 }, {
     server: "wap.dadigua.men",
     port: 22211,
-    // nodes: ["广港IEPL1 x10"],
+    proxyConig: proxyConig2
+}, {
+    server: "tw6.dadigua.men",
+    port: 22211,
+    nodes: ["安徽-香港 x2", "安徽-香港"],
+    proxyConig: proxyConig2
+}, {
+    server: "silk.dadigua.men",
+    port: 22211,
+    nodes: ["安徽-香港 x2", "安徽-香港"],
     proxyConig: proxyConig2
 }];
 
@@ -62,7 +70,16 @@ function request(path, options) {
     return fetch(URLPRE + path, Object.assign({
         method: "POST",
         headers
-    }, options)).then(res => { if (res.status == 200) { return res.json() } console.log(res); throw new Error("返回内容错误：" + res.status) });
+    }, options)).then(res => {
+        if (res.status == 200) { return res.json() }
+        console.log(res); throw new Error("http code错误：" + res.status)
+    }).then(res => {
+        if (res.status != 1) {
+            console.log(res)
+            throw new Error("接口调用失败")
+        }
+        return res;
+    });
 }
 
 async function clearRules() {
@@ -93,6 +110,11 @@ async function clearRules() {
 }
 
 async function addRules() {
+    const rules = await request("/api/rules/", {
+        method: "POST",
+        headers
+    });
+
     const response = await request("/api/servers", {
         method: "POST",
         headers
@@ -106,6 +128,9 @@ async function addRules() {
 
             if ((endnode.nodes || nodes).includes(target.name)) {
                 let name = [endnode.proxyConig.type, endnode.server.replace('.dadigua.men', ''), target.name].join("-");
+                if (rules.data.find(x => x.name === name)) {
+                    continue;
+                }
                 const response2 = await request("/api/rules/add", {
                     method: "POST",
                     headers,
@@ -141,7 +166,7 @@ async function addRules() {
 }
 
 async function main() {
-    await clearRules();
+    // await clearRules();
     await addRules();
 }
 
