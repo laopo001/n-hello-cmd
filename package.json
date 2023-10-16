@@ -8,6 +8,9 @@
         "n-echo": "echo.js",
         "n-nohup": "nohup.js"
     },
+    "scripts": {
+        "test": "echo test"
+    },
     "dependencies": {
         "dotenv": "^16.3.1",
         "node-fetch": "^3.3.2",
