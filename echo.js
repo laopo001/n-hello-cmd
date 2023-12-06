@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-console.log('Hello, cmd!');
+import p from "./package.json" assert { type: 'json' };
+console.log('Hello, cmd! ' + p.version);
