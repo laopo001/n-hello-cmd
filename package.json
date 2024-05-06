@@ -1,6 +1,6 @@
 {
     "name": "n-hello-cmd",
-    "version": "1.0.4",
+    "version": "1.1.0",
     "description": "hello-cmd",
     "type": "module",
     "bin": {
@@ -12,8 +12,6 @@
         "test": "echo test"
     },
     "dependencies": {
-        "dotenv": "^16.3.1",
-        "node-fetch": "^3.3.2",
         "zx": "^7.2.3"
     }
 }
